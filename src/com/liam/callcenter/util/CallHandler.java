@@ -9,6 +9,12 @@ import com.liam.callcenter.bean.Fresher;
 import com.liam.callcenter.bean.ProductManager;
 import com.liam.callcenter.bean.TechnicalLead;
 
+/**
+ * This class is the handler to distribute the {@link Call} to the correct
+ * respondent.
+ * 
+ * @author Liam
+ */
 public class CallHandler {
 
 	private static CallHandler instance;
@@ -30,6 +36,13 @@ public class CallHandler {
 		pm = ProductManager.getInstance(this);
 	}
 
+	/**
+	 * Get a instance of the singleton class {@link CallHandler}
+	 * 
+	 * @param fresherNumber
+	 *            how many freshers you want within the test
+	 * @return
+	 */
 	public synchronized static CallHandler getInstance(int fresherNumber) {
 
 		if (instance == null) {

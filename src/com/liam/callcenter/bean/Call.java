@@ -6,6 +6,12 @@ public class Call {
 
 	private Integer callId;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param callLvl
+	 * @param callId
+	 */
 	public Call(int callLvl, int callId) {
 		this.callLvl = callLvl;
 		this.callId = callId;
@@ -22,5 +28,5 @@ public class Call {
 	public void setCallId(Integer callId) {
 		this.callId = callId;
 	}
-	
+
 }
