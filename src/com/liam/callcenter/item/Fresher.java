@@ -1,32 +1,27 @@
-package com.liam.callcenter.bean;
+package com.liam.callcenter.item;
 
 import java.util.concurrent.TimeUnit;
 
 import com.liam.callcenter.util.CallHandler;
 
-public class TechnicalLead implements Employee {
+/**
+ * Fresher is an implementation of {@link Employee}. It can handle the
+ * {@link Call} which has callLevel not greater than 50;
+ * 
+ * @author Liam
+ *
+ */
+public class Fresher implements Employee {
 
-	public static final int manageableCallLvl = 80;
+	public final int manageableCallLvl = 50;
 
+	private boolean isAvailable = true;
 	private String employeeId;
-	private boolean isAvailiable = true;
 	private CallHandler callHandler;
 
-	// Singleton
-	private static TechnicalLead instance;
-
-	private TechnicalLead(CallHandler callHandler) {
+	public Fresher(CallHandler callHandler, int fresherNo) {
 		this.callHandler = callHandler;
-		this.employeeId = this.getClass().getSimpleName();
-	}
-
-	public synchronized static TechnicalLead getInstance(CallHandler callHandler) {
-
-		if (instance == null) {
-			instance = new TechnicalLead(callHandler);
-		}
-
-		return instance;
+		this.employeeId = this.getClass().getSimpleName() + fresherNo;
 	}
 
 	@Override
@@ -34,9 +29,10 @@ public class TechnicalLead implements Employee {
 		if (call.getCallLvl() > manageableCallLvl) {
 			passCall(call);
 		} else {
-			isAvailiable = false;
+			isAvailable = false;
 
 			System.out.println(employeeId + " is now on a call: " + call.getCallLvl() + " / " + call.getCallId());
+
 			Thread thread = new Thread() {
 				public void run() {
 					try {
@@ -46,9 +42,9 @@ public class TechnicalLead implements Employee {
 						e.printStackTrace();
 					}
 
-					System.out.println(employeeId + " handled a call: " + call.getCallLvl() + " / " + call.getCallId());
+					System.out.println(employeeId + " handled a call " + call.getCallLvl() + " / " + call.getCallId());
 
-					isAvailiable = true;
+					isAvailable = true;
 				}
 			};
 
@@ -62,9 +58,8 @@ public class TechnicalLead implements Employee {
 		callHandler.escalateCall(this, call);
 	}
 
-	@Override
-	public boolean isAvailiable() {
-		return isAvailiable;
+	public boolean isAvailable() {
+		return isAvailable;
 	}
 
 	@Override

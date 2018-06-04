@@ -6,13 +6,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import com.liam.callcenter.bean.Call;
+import com.liam.callcenter.item.Call;
 import com.liam.callcenter.util.CallGenerator;
 import com.liam.callcenter.util.CallHandler;
 
 /**
  * This class is the test case of the Call Center question. The user can enter
- * how many calls to be generated every 3 seconds to test the logic.
+ * how many calls to be generated in every 3 seconds for the test run.
  * 
  * @author Liam
  */

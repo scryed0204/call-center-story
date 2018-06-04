@@ -1,29 +1,37 @@
-package com.liam.callcenter.bean;
+package com.liam.callcenter.item;
 
 import java.util.concurrent.TimeUnit;
 
 import com.liam.callcenter.util.CallHandler;
 
-public class ProductManager implements Employee {
+/**
+ * TechnicalLead is an implementation of {@link Employee}.
+ * It is a singleton object.
+ * It can handle the {@link Call} which has callLevel not greater than 80;
+ * 
+ * @author Liam
+ *
+ */
+public class TechnicalLead implements Employee {
 
-	public static final int manageableCallLvl = 100;
+	public static final int manageableCallLvl = 80;
 
-	private boolean isAvailiable = true;
 	private String employeeId;
+	private boolean isAvailable = true;
 	private CallHandler callHandler;
 
 	// Singleton
-	private static ProductManager instance;
+	private static TechnicalLead instance;
 
-	private ProductManager(CallHandler callHandler) {
+	private TechnicalLead(CallHandler callHandler) {
 		this.callHandler = callHandler;
 		this.employeeId = this.getClass().getSimpleName();
 	}
 
-	public synchronized static ProductManager getInstance(CallHandler callHandler) {
+	public synchronized static TechnicalLead getInstance(CallHandler callHandler) {
 
 		if (instance == null) {
-			instance = new ProductManager(callHandler);
+			instance = new TechnicalLead(callHandler);
 		}
 
 		return instance;
@@ -34,7 +42,7 @@ public class ProductManager implements Employee {
 		if (call.getCallLvl() > manageableCallLvl) {
 			passCall(call);
 		} else {
-			isAvailiable = false;
+			isAvailable = false;
 
 			System.out.println(employeeId + " is now on a call: " + call.getCallLvl() + " / " + call.getCallId());
 			Thread thread = new Thread() {
@@ -46,9 +54,9 @@ public class ProductManager implements Employee {
 						e.printStackTrace();
 					}
 
-					System.out.println(employeeId + " handled a call " + call.getCallLvl() + " / " + call.getCallId());
+					System.out.println(employeeId + " handled a call: " + call.getCallLvl() + " / " + call.getCallId());
 
-					isAvailiable = true;
+					isAvailable = true;
 				}
 			};
 
@@ -63,8 +71,8 @@ public class ProductManager implements Employee {
 	}
 
 	@Override
-	public boolean isAvailiable() {
-		return isAvailiable;
+	public boolean isAvailable() {
+		return isAvailable;
 	}
 
 	@Override

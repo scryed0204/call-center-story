@@ -1,20 +1,40 @@
-package com.liam.callcenter.bean;
+package com.liam.callcenter.item;
 
 import java.util.concurrent.TimeUnit;
 
 import com.liam.callcenter.util.CallHandler;
 
-public class Fresher implements Employee {
+/**
+ * ProductManager is an implementation of {@link Employee}.
+ * It is a singleton object.
+ * It can handle the {@link Call} which has callLevel not greater than 100;
+ * 
+ * @author Liam
+ *
+ */
+public class ProductManager implements Employee {
 
-	public final int manageableCallLvl = 50;
-	
-	private boolean isAvailiable = true;
+	public static final int manageableCallLvl = 100;
+
+	private boolean isAvailable = true;
 	private String employeeId;
 	private CallHandler callHandler;
 
-	public Fresher(CallHandler callHandler, int fresherNo) {
+	// Singleton
+	private static ProductManager instance;
+
+	private ProductManager(CallHandler callHandler) {
 		this.callHandler = callHandler;
-		this.employeeId = this.getClass().getSimpleName() + fresherNo;
+		this.employeeId = this.getClass().getSimpleName();
+	}
+
+	public synchronized static ProductManager getInstance(CallHandler callHandler) {
+
+		if (instance == null) {
+			instance = new ProductManager(callHandler);
+		}
+
+		return instance;
 	}
 
 	@Override
@@ -22,10 +42,9 @@ public class Fresher implements Employee {
 		if (call.getCallLvl() > manageableCallLvl) {
 			passCall(call);
 		} else {
-			isAvailiable = false;
+			isAvailable = false;
 
 			System.out.println(employeeId + " is now on a call: " + call.getCallLvl() + " / " + call.getCallId());
-
 			Thread thread = new Thread() {
 				public void run() {
 					try {
@@ -37,7 +56,7 @@ public class Fresher implements Employee {
 
 					System.out.println(employeeId + " handled a call " + call.getCallLvl() + " / " + call.getCallId());
 
-					isAvailiable = true;
+					isAvailable = true;
 				}
 			};
 
@@ -51,8 +70,9 @@ public class Fresher implements Employee {
 		callHandler.escalateCall(this, call);
 	}
 
-	public boolean isAvailiable() {
-		return isAvailiable;
+	@Override
+	public boolean isAvailable() {
+		return isAvailable;
 	}
 
 	@Override

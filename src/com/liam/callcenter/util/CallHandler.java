@@ -3,11 +3,11 @@ package com.liam.callcenter.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liam.callcenter.bean.Call;
-import com.liam.callcenter.bean.Employee;
-import com.liam.callcenter.bean.Fresher;
-import com.liam.callcenter.bean.ProductManager;
-import com.liam.callcenter.bean.TechnicalLead;
+import com.liam.callcenter.item.Call;
+import com.liam.callcenter.item.Employee;
+import com.liam.callcenter.item.Fresher;
+import com.liam.callcenter.item.ProductManager;
+import com.liam.callcenter.item.TechnicalLead;
 
 /**
  * This class is the handler to distribute the {@link Call} to the correct
@@ -56,17 +56,17 @@ public class CallHandler {
 		Employee respondent = null;
 
 		for (Fresher fresher : fresherList) {
-			if (fresher.isAvailiable()) {
+			if (fresher.isAvailable()) {
 				respondent = fresher;
 				break;
 			}
 		}
 
-		if (null == respondent && tl.isAvailiable()) {
+		if (null == respondent && tl.isAvailable()) {
 			respondent = tl;
 		}
 
-		if (null == respondent && pm.isAvailiable()) {
+		if (null == respondent && pm.isAvailable()) {
 			respondent = pm;
 		}
 
@@ -83,13 +83,13 @@ public class CallHandler {
 
 		Employee respondent = null;
 		if (passer instanceof Fresher) {
-			if (tl.isAvailiable()) {
+			if (tl.isAvailable()) {
 				respondent = tl;
-			} else if (pm.isAvailiable()) {
+			} else if (pm.isAvailable()) {
 				respondent = pm;
 			}
 		} else if (passer instanceof TechnicalLead) {
-			if (pm.isAvailiable()) {
+			if (pm.isAvailable()) {
 				respondent = pm;
 			}
 		}
